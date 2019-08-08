@@ -3,42 +3,70 @@
 const button = document.querySelector('.js-button');
 const input = document.querySelector('.js-input');
 const favouritesList = document.querySelector('.js-favouritesList');
-const searchesContainer = document.querySelector('.js-searchesDiv');
+const searchesList = document.querySelector('.js-searchesList');
 
-function getFilmInfo(event) {
+const filmsFormated = [];
+
+function getFilmInfoandPrint(event) {
     event.preventDefault();
-    console.log('Hola estoy buscando algo');
-
+    console.log('Hola voy a empezar a buscar');
     getDataFromServer();
-    formatData(serverData)
-
 }
+
+
+
+function formatData(filmsData) {
+    console.log('Hola estoy formateando')
+    for (let filmIndex = 0; filmIndex < filmsData.length; filmIndex++) {
+
+        if (filmsData[filmIndex].show.image === null) {
+            filmsData[filmIndex].show.image = 'https://via.placeholder.com/210x295/ffffff/666666/?text=TV';
+        }
+        filmsFormated.push({
+            name: filmsData[filmIndex].show.name,
+            picture: filmsData[filmIndex].show.image.medium,
+            id: filmsData[filmIndex].show.id,
+        })
+    }
+    console.log(filmsFormated[1])
+    return filmsFormated;
+}
+
 
 
 function getDataFromServer() {
+    console.log('Hola voy al servidor')
     const filmWanted = input.value;
-    const url = 'http://api.tvmaze.com/search/shows?q='
-    fetch(url + `${filmWanted}`)
+    return fetch(`http://api.tvmaze.com/search/shows?q=${filmWanted}`)
         .then(serverResponse => serverResponse.json())
         .then(serverData => {
-            console.log(`Hola estoy en el servidor y vengo a traerte a ${filmWanted}`);
-            console.log(serverData);
+            const filmsData = serverData;
+            console.log(`Hola estoy en el servidor y te traigo ${filmWanted}`);
+            console.log(filmsData);
+            formatData(filmsData);
+            printFilms();
         })
-    return serverData
+
 }
 
-function formatData(serverData) {
-    const filmsFormated = []
-    const filmsCharacteristics = serverData.show;
-    for (const characteristic of filmsCharacteristics) {
-        debugger
-        filmsFormated.push({
-            name: characteristic.name,
-            image: characteristic.image
-        }
-        )
+function printFilms() {
+    //debugger
+    console.log('Hola voy a pintar las pelis')
+    let htmlCode = ''
+    for (const film of filmsFormated) {
+        htmlCode += '<li class="searches-film>'
+        htmlCode += `<img src="${film.picture}" alt="${film.name}">`
+        htmlCode += `<h3> ${film.name}</h3>`
+        htmlCode += '</li>'
     }
-
+    searchesList.innerHTML = htmlCode
 }
 
-button.addEventListener('click', getFilmInfo)
+
+/*         if (film.picture === null) {
+            htmlCode += `<img src="https://via.placeholder.com/210x295/ffffff/666666/?text=TV" alt="${film.name}"`
+        } else {
+            htmlCode += `<img src="${film.picture}" alt="${film.name}>`
+        } */
+
+button.addEventListener('click', getFilmInfoandPrint)
