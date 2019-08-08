@@ -17,14 +17,17 @@ function getFilmInfoandPrint(event) {
 
 function formatData(filmsData) {
     console.log('Hola estoy formateando')
+    let picture = "";
     for (let filmIndex = 0; filmIndex < filmsData.length; filmIndex++) {
-
         if (filmsData[filmIndex].show.image === null) {
-            filmsData[filmIndex].show.image = 'https://via.placeholder.com/210x295/ffffff/666666/?text=TV';
+            picture = 'https://via.placeholder.com/210x295/ffffff/666666/?text=TV';
+        } else {
+            picture = `${filmsData[filmIndex].show.image.medium}`
         }
+
         filmsFormated.push({
             name: filmsData[filmIndex].show.name,
-            picture: filmsData[filmIndex].show.image.medium,
+            picture: picture,
             id: filmsData[filmIndex].show.id,
         })
     }
@@ -50,17 +53,19 @@ function getDataFromServer() {
 }
 
 function printFilms() {
-    //debugger
+    debugger;
     console.log('Hola voy a pintar las pelis')
     let htmlCode = ''
     for (const film of filmsFormated) {
-        htmlCode += '<li class="searches-film>'
+        htmlCode += '<li class="searches-film js-searchedFilm">'
         htmlCode += `<img src="${film.picture}" alt="${film.name}">`
         htmlCode += `<h3> ${film.name}</h3>`
         htmlCode += '</li>'
     }
-    searchesList.innerHTML = htmlCode
+    searchesList.innerHTML = htmlCode;
 }
+
+
 
 
 /*         if (film.picture === null) {
