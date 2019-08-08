@@ -1,0 +1,35 @@
+/* @import 'core/settings';
+@import 'core/links';
+ */
+
+
+body {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+	height: 100vh;
+	background: lightgrey;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.container{
+	background: lightcoral;
+	display:flex;
+	flex-direction: row;
+}
+
+.favourites-container{
+	background: lightgoldenrodyellow;
+	display: flex;
+	flex-direction: column;
+	width: 35%;
+	height: 100vh;
+	min-height: 400px;
+}
+
+.search-container{
+	background: lightblue;
+	height: 500px;
+	display: flex;
+	flex-direction: column;
+}
