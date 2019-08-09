@@ -121,7 +121,7 @@ function deleteFavouritedFilms(event) {
     const notFavouriteId = parseInt(notFavouriteFilm.dataset.index);
     for (let i = 0; i < favouriteFilms.length; i++) {
         if (favouriteFilms[i].id === notFavouriteId) {
-            favouriteFilms.splice(favouriteFilms[i], 1);
+            favouriteFilms.splice(i, 1);
         }
     }
     printFavourites();
