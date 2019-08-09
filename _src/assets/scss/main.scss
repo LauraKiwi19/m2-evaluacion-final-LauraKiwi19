@@ -12,25 +12,75 @@ body {
 	font-family: Arial, Helvetica, sans-serif;
 }
 
+.header{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: white;
+	height: 100px;
+	border-bottom: 8px solid #A78AFF;
+}
+
+.title{
+	font-size: 45px;
+	color: #5837B8;
+	
+}
 .container{
-	background: lightcoral;
+	background: white;
 	display:flex;
 	flex-direction: row;
 }
 
-.favourites-container{
-	background: lightgoldenrodyellow;
+.favourites_container{
+	padding-top: 30px;
+	margin-top: 30px;
+	background: white;
+	color: #5837B8;
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 	width: 35%;
 	height: 100vh;
 	min-height: 400px;
+	border-right: 3px solid #A78AFF;
 }
 
-.search-container{
-	background: lightblue;
+.search_container{
+	background: white;
 	width: 65%;
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
+}
+.search_list{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin: 50px;
+
+}
+
+.search_film{
+	padding: 15px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.search_input{
+	height: 30px;
+	border-radius: 5px;
+}
+
+.search_button{
+	height: 30px;
+	border-radius: 5px;
+}
+
+.selected{
+	padding: 10px;
+	background: #FFF17D;
+	color: #5837B8;
+	margin: 10px;
 }

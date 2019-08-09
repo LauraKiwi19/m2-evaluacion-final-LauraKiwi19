@@ -9,13 +9,15 @@
 </head>
 
 <body>
+  <header class="header">
+    <h1 class="title">Buscador de series</h1>
+  </header>
   <main class="container">
-    <section class="favourites-container">
+    <section class="favourites_container">
       <div>
-        <h1>Buscador de series</h1>
         <form><label for="search"></label>
-          <input type="text" class="js-input" id="search" placeholder="Busca tu serie">
-          <button class="js-button">Search</button>
+          <input type="text" class="js-input search_input" id="search" placeholder="Busca tu serie">
+          <button class="js-button search_button">Search</button>
         </form>
       </div>
       <div>
@@ -27,8 +29,8 @@
       </div>
     </section>
 
-    <section class="search-container">
-      <ul class="js-searchesList"></ul>
+    <section class="search_container">
+      <ul class="search_list js-searchesList"></ul>
     </section>
   </main>
   <script type="text/javascript" src="../assets/js/main.js"></script>
