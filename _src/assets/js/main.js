@@ -7,7 +7,20 @@ const searchesList = document.querySelector('.js-searchesList');
 
 let filmsFormated = [];
 let favouriteFilms = [];
-console.log(favouriteFilms)
+
+function setFavouriteFilmsfromLocalStorage() {
+    console.log('Hola estoy guardando tus favoritos en LocalStorage')
+    console.log(favouriteFilms);
+    localStorage.setItem('favouriteFilms', JSON.stringify(favouriteFilms));
+};
+
+function getFavouriteFilmsfromLocalStorage() {
+    console.log('Hola estoy cogiendo tus favoritos de la última vez que estuviste aqui')
+    const savedFilms = JSON.parse(localStorage.getItem('favouriteFilms'));
+    if (savedFilms !== null) {
+        favouriteFilms = savedFilms;
+    }
+}
 
 function getFilmInfoandPrint(event) {
     event.preventDefault();
@@ -55,7 +68,7 @@ function printFilms() {
     for (const film of filmsFormated) {
         htmlCode += `<li class="search_film js-searchedFilm" data-index="${film.id}">`
         htmlCode += `<img src="${film.picture}" alt="${film.name}">`
-        htmlCode += `<h3> ${film.name}</h3>`
+        htmlCode += `<h3 class="js-favouriteTitle"> ${film.name}</h3>`
         htmlCode += '</li>'
         // filmsShowed.push(film);
     }
@@ -70,20 +83,18 @@ function eraseSearchedFilms() {
 
 function changeFavourites(event) {
     const selectedFilm = event.currentTarget;
+    const filmId = parseInt(selectedFilm.dataset.index)
+    console.log(filmId);
     console.log(`Hola ¿le has dado a la peli ${selectedFilm}`)
     console.log(selectedFilm)
     selectedFilm.classList.toggle('selected');
-    if (selectedFilm.classList.contains('selected')) {
-        console.log(`Estoy guardando ${selectedFilm} en favoritos`)
-        favouriteFilms.push(selectedFilm)
-    }
-    for (let favouriteIndex = 0; favouriteIndex < favouriteFilms.length; favouriteIndex++) {
-        if (!favouriteFilms[favouriteIndex].classList.contains('selected')) {
-            favouriteFilms.splice(favouriteIndex, 1);
+    for (let i = 0; i < filmsFormated.length; i++) {
+        if (filmsFormated[i].id === filmId && !favouriteFilms.includes(filmsFormated[i])) {
+            favouriteFilms.push(filmsFormated[i])
         }
     }
-    console.log(`Tus pelis favoritas son: ${favouriteFilms.length}`)
-    printFavourites()
+    printFavourites();
+    setFavouriteFilmsfromLocalStorage(favouriteFilms);
 }
 
 function listenToSearchedFilms() {
@@ -96,9 +107,42 @@ function listenToSearchedFilms() {
 
 function printFavourites() {
     console.log('Hola voy a pintar tus favoritas')
+    let htmlCode = ""
     for (const film of favouriteFilms) {
-        favouritesList.appendChild(film);
+        htmlCode += `<li class="favourite_item js-searchedFilm" data-index="${film.id}">`
+        htmlCode += `<div class="favourite_item_container"><img class="favourite_img" src="${film.picture}" alt="${film.name}">`
+        htmlCode += `<h3 class="favourite_title"> ${film.name}</h3></div>`
+        htmlCode += '<button class="js-delete delete_favourite">x</button>'
+        htmlCode += '</li>'
+    }
+    favouritesList.innerHTML = htmlCode;
+    listenToFavouriteFilms();
+}
+
+
+function deleteFavouritedFilms(event) {
+    const notFavouriteFilm = event.currentTarget;
+    console.log(notFavouriteFilm)
+    const notFavouriteId = parseInt(notFavouriteFilm.dataset.index);
+    console.log(notFavouriteId);
+    for (let i = 0; i < favouriteFilms.length; i++) {
+        if (favouriteFilms[i].id === notFavouriteId) {
+            favouriteFilms.slice(favouriteFilms[i], 1);
+        }
+
     }
 }
+
+function listenToFavouriteFilms() {
+    console.log("Hola voy a escuchar tus favoritos por si quieres borrarlos")
+    const favouritedFilms = document.querySelectorAll('.js-searchedFilm');
+    for (const film of favouritedFilms) {
+        film.addEventListener('click', deleteFavouritedFilms);
+    }
+}
+
+
+getFavouriteFilmsfromLocalStorage();
+printFavourites();
 
 button.addEventListener('click', getFilmInfoandPrint)
